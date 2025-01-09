@@ -99,6 +99,8 @@
         @media (max-width: 768px) {
             .profile-container {
                 padding: 20px;
+                margin: 15px;
+                max-width: 100%;
             }
 
             .profile-name {
@@ -107,6 +109,51 @@
 
             .profile-description {
                 font-size: 14px;
+                padding: 0 10px;
+                line-height: 1.6;
+            }
+
+            .profile-image {
+                width: 150px;
+                height: 150px;
+                border-width: 3px;
+            }
+
+            .social-links {
+                margin-top: 20px;
+                gap: 15px;
+            }
+
+            .social-links a {
+                font-size: 20px;
+            }
+
+            body {
+                padding: 10px;
+            }
+        }
+
+        /* Add a new media query for even smaller devices */
+        @media (max-width: 480px) {
+            .profile-container {
+                padding: 15px;
+            }
+
+            .profile-name {
+                font-size: 22px;
+            }
+
+            .profile-description {
+                font-size: 13px;
+            }
+
+            .profile-image {
+                width: 120px;
+                height: 120px;
+            }
+
+            .social-links a {
+                font-size: 18px;
             }
         }
     </style>
