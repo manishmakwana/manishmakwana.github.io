@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* General Body Styling */
         body {
@@ -64,6 +66,35 @@
             font-weight: bold;
         }
 
+        .social-links {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: #333;
+            font-size: 24px;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+        }
+
+        .social-links .linkedin:hover {
+            color: #0077b5;
+        }
+
+        .social-links .github:hover {
+            color: #333;
+        }
+
+        .social-links .twitter:hover {
+            color: #1DA1F2;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .profile-container {
@@ -80,14 +111,31 @@
         }
     </style>
 </head>
+
 <body>
     <div class="profile-container">
         <img src="assets/manish.jpg" alt="Profile Picture" class="profile-image">
         <h1 class="profile-name">Manish Makwana</h1>
         <p class="profile-description">
             Welcome to my website! 👋 <br>
-            Hi, I’m <span class="highlight">Manish Makwana</span>, currently working as an <span class="highlight">Associate Director of Engineering</span> at <span class="highlight">Jio Haptik</span>. I lead the engineering team for <span class="highlight">Interakt</span>, one of Haptik's flagship products. With over <span class="highlight">11 years of experience</span> building scalable and high-performance products, I’m passionate about solving complex challenges and driving innovation in technology. 🚀
+            Hi, I’m <span class="highlight">Manish Makwana</span>, currently working as an <span
+                class="highlight">Associate Director of Engineering</span> at <span class="highlight">Jio Haptik</span>.
+            I lead the engineering team for <span class="highlight">Interakt</span>, one of Haptik's flagship products.
+            With over <span class="highlight">11 years of experience</span> building scalable and high-performance
+            products, I’m passionate about solving complex challenges and driving innovation in technology. 🚀
         </p>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/manish-makwana/" target="_blank" class="linkedin">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://github.com/manishmakwana" target="_blank" class="github">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://x.com/manishmakwana_" target="_blank" class="twitter">
+                <i class="fab fa-x-twitter"></i>
+            </a>
+        </div>
     </div>
 </body>
+
 </html>
