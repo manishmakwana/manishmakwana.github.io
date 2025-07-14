@@ -156,6 +156,181 @@
                 font-size: 18px;
             }
         }
+
+        /* Experience Timeline Styling */
+        .experience-section {
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .experience-title {
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .company-group {
+            margin-bottom: 30px;
+            border-left: 3px solid #4CAF50;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .company-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .company-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 2px solid #e0e0e0;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .company-info {
+            flex: 1;
+        }
+
+        .company-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin: 0 0 5px 0;
+        }
+
+        .company-duration {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+
+        .positions-list {
+            margin-left: 75px;
+        }
+
+        .position-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+
+        .position-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .position-item::before {
+            content: '';
+            position: absolute;
+            left: -95px;
+            top: 8px;
+            width: 10px;
+            height: 10px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px #4CAF50;
+        }
+
+        .position-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 5px 0;
+        }
+
+        .position-duration {
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 5px 0;
+        }
+
+        .current-position {
+            color: #4CAF50;
+            font-weight: 600;
+        }
+
+        .position-type {
+            font-size: 12px;
+            color: #888;
+            margin: 0;
+        }
+
+        /* Responsive Design for Experience Section */
+        @media (max-width: 768px) {
+            .experience-section {
+                margin-top: 30px;
+            }
+
+            .experience-title {
+                font-size: 20px;
+            }
+
+            .company-group {
+                padding-left: 15px;
+            }
+
+            .company-logo {
+                width: 50px;
+                height: 50px;
+                margin-right: 12px;
+                font-size: 10px;
+            }
+
+            .company-name {
+                font-size: 16px;
+            }
+
+            .positions-list {
+                margin-left: 62px;
+            }
+
+            .position-item::before {
+                left: -77px;
+                width: 8px;
+                height: 8px;
+            }
+
+            .position-title {
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .company-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .company-logo {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+
+            .positions-list {
+                margin-left: 0;
+            }
+
+            .position-item::before {
+                left: -18px;
+            }
+        }
     </style>
 </head>
 
@@ -182,7 +357,173 @@
                 <i class="fab fa-x-twitter"></i>
             </a>
         </div>
+        
+        <!-- Experience Timeline Section -->
+        <div class="experience-section">
+            <h2 class="experience-title">Experience</h2>
+            <div id="experience-timeline"></div>
+        </div>
     </div>
+
+    <script>
+        // Experience data will be loaded from JSON file
+        let experienceData = [];
+
+        // Function to format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short'
+            });
+        }
+
+        // Function to calculate duration
+        function calculateDuration(startDate, endDate) {
+            const start = new Date(startDate);
+            const end = endDate ? new Date(endDate) : new Date();
+            
+            const diffTime = Math.abs(end - start);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            const years = Math.floor(diffDays / 365);
+            const months = Math.floor((diffDays % 365) / 30);
+            
+            if (years > 0 && months > 0) {
+                return `${years} yr${years > 1 ? 's' : ''} ${months} mo${months > 1 ? 's' : ''}`;
+            } else if (years > 0) {
+                return `${years} yr${years > 1 ? 's' : ''}`;
+            } else if (months > 0) {
+                return `${months} mo${months > 1 ? 's' : ''}`;
+            } else {
+                return 'Less than a month';
+            }
+        }
+
+        // Function to get company logo placeholder
+        function getCompanyLogo(companyName) {
+            // Extract company initials for placeholder
+            const words = companyName.split(' ');
+            let initials = words[0].substring(0, 2).toUpperCase();
+            
+            if (words.length > 1) {
+                initials = words[0].charAt(0) + words[1].charAt(0);
+                initials = initials.toUpperCase();
+            }
+            
+            return initials;
+        }
+
+        // Function to group experiences by company
+        function groupExperiencesByCompany(experiences) {
+            const grouped = {};
+            
+            experiences.forEach(exp => {
+                const companyKey = exp.company_name;
+                if (!grouped[companyKey]) {
+                    grouped[companyKey] = [];
+                }
+                grouped[companyKey].push(exp);
+            });
+            
+            // Sort positions within each company by start date (newest first)
+            Object.keys(grouped).forEach(company => {
+                grouped[company].sort((a, b) => new Date(b.start_date) - new Date(a.start_date));
+            });
+            
+            return grouped;
+        }
+
+        // Function to calculate total company duration
+        function calculateCompanyDuration(positions) {
+            const sortedPositions = [...positions].sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
+            const startDate = sortedPositions[0].start_date;
+            const endDate = sortedPositions[sortedPositions.length - 1].end_date;
+            
+            return calculateDuration(startDate, endDate);
+        }
+
+        // Function to render experience timeline
+        function renderExperienceTimeline() {
+            const timelineContainer = document.getElementById('experience-timeline');
+            const groupedExperiences = groupExperiencesByCompany(experienceData);
+            
+            let html = '';
+            
+            Object.entries(groupedExperiences).forEach(([company, positions]) => {
+                const companyDuration = calculateCompanyDuration(positions);
+                const companyLogo = getCompanyLogo(company);
+                
+                html += `
+                    <div class="company-group">
+                        <div class="company-header">
+                            <div class="company-logo" title="Click to upload ${company} logo">
+                                ${companyLogo}
+                            </div>
+                            <div class="company-info">
+                                <h3 class="company-name">${company}</h3>
+                                <p class="company-duration">${companyDuration}</p>
+                            </div>
+                        </div>
+                        <div class="positions-list">
+                `;
+                
+                positions.forEach(position => {
+                    const startFormatted = formatDate(position.start_date);
+                    const endFormatted = position.end_date ? formatDate(position.end_date) : 'Present';
+                    const duration = calculateDuration(position.start_date, position.end_date);
+                    const isCurrent = !position.end_date;
+                    
+                    html += `
+                        <div class="position-item">
+                            <h4 class="position-title">${position.position}</h4>
+                            <p class="position-duration ${isCurrent ? 'current-position' : ''}">
+                                ${startFormatted} - ${endFormatted} · ${duration}
+                            </p>
+                            <p class="position-type">${isCurrent ? 'Full-time · Current' : 'Full-time'}</p>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+            
+            timelineContainer.innerHTML = html;
+            
+            // Add click event listeners to company logos for future logo upload functionality
+            document.querySelectorAll('.company-logo').forEach(logo => {
+                logo.addEventListener('click', function() {
+                    const companyName = this.nextElementSibling.querySelector('.company-name').textContent;
+                    alert(`Logo upload functionality for ${companyName} can be implemented here.\n\nYou can:\n1. Create a file input\n2. Upload and resize the image\n3. Store it in the assets folder\n4. Update the src attribute`);
+                });
+            });
+        }
+
+        // Function to load experience data from JSON file
+        async function loadExperienceData() {
+            try {
+                const response = await fetch('assets/experience.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                experienceData = await response.json();
+                renderExperienceTimeline();
+            } catch (error) {
+                console.error('Error loading experience data:', error);
+                // Fallback: show an error message
+                const timelineContainer = document.getElementById('experience-timeline');
+                timelineContainer.innerHTML = '<p style="text-align: center; color: #666;">Error loading experience data. Please try again later.</p>';
+            }
+        }
+
+        // Initialize the timeline when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadExperienceData();
+        });
+    </script>
 </body>
 
 </html>
